@@ -1,3 +1,4 @@
+from distutils.log import error
 from django.http import JsonResponse
 from .models import *
 import json
@@ -13,6 +14,13 @@ def returnImageClass(request):
             'confidence': 0.5
         }
     }
+    
+    # エラー時
+    # context = {
+    #     'success': False,
+    #     'message': "error ",
+    #     'estimated_data': {}
+    # }
     return JsonResponse(context)
 
 # 取得したデータを保存するAPI
@@ -22,16 +30,19 @@ def saveImageClass(request):
     post_data = json.loads(request.body).get("save_data")
 
     # モデルのインスタンスを作成し保存
-    add_analytics_log = ai_analysis_log(
-        image_path = post_data['image_path'],
-        success = post_data['success'],
-        message = post_data['message'],
-        class_num = post_data['class_num'],
-        confidence = post_data['confidence'],
-        request_timestamp = post_data['request_timestamp'],
-        response_timestamp = post_data['response_timestamp']
-    )
-    add_analytics_log.save()
+    try:
+        add_analytics_log = ai_analysis_log(
+            image_path = post_data['image_path'],
+            success = post_data['success'],
+            message = post_data['message'],
+            class_num = post_data['class_num'],
+            confidence = post_data['confidence'],
+            request_timestamp = post_data['request_timestamp'],
+            response_timestamp = post_data['response_timestamp']
+        )
+        add_analytics_log.save()
+    except:
+        return JsonResponse({'result': {"message": "エラーが発生しました"}})
 
     # 保存したデータを返す
     analitics_log_obj = ai_analysis_log.objects.filter(id=add_analytics_log.id).values()

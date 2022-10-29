@@ -25,8 +25,9 @@ const targetResult: HTMLParagraphElement =
   document.querySelector(".targetResult")!;
 
 // リクエスト送信の処理
-const requestImagePath = async () => {
+const requestImagePath = () => {
   const image_path = targetInput.value;
+  if (!image_path) return alert("画像のパスを入力してください");
 
   // リクエスト送信時のtimestampを定義
   const request_timestamp = Math.floor(Date.now() / 1000);

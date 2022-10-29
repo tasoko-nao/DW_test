@@ -1,0 +1,15 @@
+【技術テスト】
+
+・app/views_api.pyに画像が所属するClassを返却するAPIのモックアップと
+DBに保存するAPIの処理があります。
+
+・classはフィールド名に使用できないのでclass_numとしています。
+
+・frontend/src/app.tsをwebpackでapp/static/に保存し
+テンプレートで読み込んでいます。
+webpack済のためdjangoのローカルサーバーのみで動作します。
+
+・frontend/src/app.tsでAPIへのリクエストを書いています。
+
+・index.htmlのinputへ画像のパスを入力し、処理開始ボタンをクリックすると
+その画像のclassを取得してDBに保存する仕様です。
